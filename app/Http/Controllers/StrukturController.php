@@ -15,7 +15,6 @@ class StrukturController extends Controller
         return view('admin.organisasi', compact('image'));
     }
 
-
     public function upload(Request $request)
     {
         $request->validate([

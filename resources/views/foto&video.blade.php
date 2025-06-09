@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Galeri Foto & Video</title>
-  @vite('resources/css/app.css')
+  @vite(['resources/css/app.css'])
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-blue-50 text-gray-800 font-sans">
@@ -24,13 +24,14 @@
     <!-- Album Cards -->
     <div id="albumGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
       <div onclick="openAlbum('album1')" class="album-card bg-white rounded-xl overflow-hidden shadow-md cursor-pointer hover:scale-105 transition-transform">
-        <img src="/img/foto1.jpg" alt="Kegiatan 2025" class="w-full h-40 object-cover">
+        <img src="{{ asset('img/DJI_0135.jpg') }}" alt="Kegiatan 2025" class="w-full h-40 object-cover" />
         <div class="title p-3 text-center font-semibold">Kegiatan 2025</div>
       </div>
       <div onclick="openAlbum('album2')" class="album-card bg-white rounded-xl overflow-hidden shadow-md cursor-pointer hover:scale-105 transition-transform">
-        <img src="/img/foto4.jpg" alt="Rapat Koordinasi" class="w-full h-40 object-cover">
+        <img src="{{ asset('img/DJI_0135.jpg') }}" alt="Rapat Koordinasi" class="w-full h-40 object-cover" />
         <div class="title p-3 text-center font-semibold">Rapat Koordinasi</div>
       </div>
+      <!-- Tambahkan album lain jika perlu -->
     </div>
 
     <!-- Back Button -->
@@ -38,24 +39,28 @@
 
     <!-- Album 1 Detail -->
     <div id="album1" class="media-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 hidden">
-      <img src="/img/foto1.jpg" class="w-full rounded-lg object-cover" alt="">
-      <img src="/img/foto2.jpg" class="w-full rounded-lg object-cover" alt="">
-      <img src="/img/foto3.jpg" class="w-full rounded-lg object-cover" alt="">
+      <img src="{{ asset('img/batik.jpg') }}" alt="Batik" class="w-full rounded-lg object-cover" />
+      <img src="{{ asset('img/batik.jpg') }}" alt="Foto 2" class="w-full rounded-lg object-cover" />
+      <img src="{{ asset('img/batik.jpg') }}" alt="Foto 3" class="w-full rounded-lg object-cover" />
     </div>
 
     <!-- Album 2 Detail -->
     <div id="album2" class="media-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 hidden">
-      <img src="/img/foto4.jpg" class="w-full rounded-lg object-cover" alt="">
-      <img src="/img/foto5.jpg" class="w-full rounded-lg object-cover" alt="">
-      <img src="/img/foto6.jpg" class="w-full rounded-lg object-cover" alt="">
+      <img src="{{ asset('img/batik.jpg') }}" alt="Foto 1" class="w-full rounded-lg object-cover" />
+      <img src="{{ asset('img/batik.jpg') }}" alt="Foto 2" class="w-full rounded-lg object-cover" />
+      <img src="{{ asset('img/batik.jpg') }}" alt="Foto 3" class="w-full rounded-lg object-cover" />
     </div>
   </div>
 
   <!-- Video View -->
   <div id="video" class="tab-content hidden">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-      <video src="/video/video1.mp4" controls class="w-full rounded-lg object-cover"></video>
-      <video src="/video/video2.mp4" controls class="w-full rounded-lg object-cover"></video>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-6 gap-5 mt-6">
+      <video src="{{ asset('vid/balai.mp4') }}" controls class="w-full rounded-lg object-cover"></video>
+      <video src="{{ asset('vid/balai.mp4') }}" controls class="w-full rounded-lg object-cover"></video>
+      <video src="{{ asset('vid/balai.mp4') }}" controls class="w-full rounded-lg object-cover"></video>
+      <video src="{{ asset('vid/balai.mp4') }}" controls class="w-full rounded-lg object-cover"></video>
+      <video src="{{ asset('vid/balai.mp4') }}" controls class="w-full rounded-lg object-cover"></video>
+      <video src="{{ asset('vid/balai.mp4') }}" controls class="w-full rounded-lg object-cover"></video>
     </div>
   </div>
 
@@ -94,14 +99,6 @@
       backBtn.classList.add('hidden');
       document.querySelectorAll('.media-grid').forEach(g => g.classList.add('hidden'));
     }
-
-    function updateClock() {
-      const now = new Date();
-      const time = now.toLocaleTimeString('id-ID', { hour12: false });
-      document.getElementById('clock').textContent = time;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
   </script>
 
 </body>

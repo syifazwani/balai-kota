@@ -3,65 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Informasi Biro Umum dan ASD DKI Jakarta</title>
+  <title>Informasi Balai Kota Jakarta</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .tab-content { display: none; }
+    .tab-active { display: block; animation: fadeIn 0.5s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-black flex flex-col min-h-screen font-sans">
+<body class="bg-[#f8fafc] text-gray-900 font-sans">
 
- @include('partials.navbar')
+  @include('partials.navbar')
 
-  <main class="flex-grow max-w-3xl mx-auto px-5 py-8">
-    <section class="bg-white rounded-xl shadow-md p-8">
-      <h2 class="text-center text-[#0077b6] text-2xl font-semibold mb-6">Hubungi Kami</h2>
-      <div class="mb-6 space-y-3 text-base">
-        <p><strong>Alamat:</strong> Jl. Medan Merdeka Selatan No.8-9, Jakarta Pusat, DKI Jakarta</p>
-        <p><strong>Telepon:</strong> (021) 12345678</p>
-        <p><strong>Email:</strong> biro.umum@jakarta.go.id</p>
+  <main class="max-w-7xl mx-auto px-4 py-10">
+    <h2 class="text-3xl font-bold text-center text-[#0077b6] mb-10">Informasi Balai Kota Jakarta</h2>
+
+    <!-- Tab Navigation -->
+    <div class="flex justify-center gap-4 mb-8">
+      <button onclick="showTab('balai')" class="bg-[#0077b6] text-white px-4 py-2 rounded hover:bg-[#005f8a]">Ada Apa di Balai Kota</button>
+      <button onclick="showTab('berita')" class="bg-[#0077b6] text-white px-4 py-2 rounded hover:bg-[#005f8a]">Berita</button>
+    </div>
+
+    <!-- Tab Content -->
+    <section class="space-y-6 text-sm">
+
+      <!-- Tab 1: Ada Apa di Balai Kota -->
+      <div id="balai" class="tab-content tab-active bg-white p-6 rounded shadow-md border-l-4 border-[#0077b6]">
+        <h3 class="text-xl font-bold text-[#023e8a] mb-4">🏛️ Ada Apa di Balai Kota?</h3>
+        <div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+          <div class="flex-1">
+            <p class="mb-4 text-justify">
+              Ketika kita berkunjung ke Balaikota pasti kita bertanya-tanya ada apa saja sih di Balaikota Jakarta? Nah berikut ini kami informasikan hal-hal menarik yang dapat anda temui di Balaikota Jakarta.
+            </p>
+            <ul class="list-disc pl-6 text-lg text-gray-700 leading-relaxed">
+    @forelse($items as $item)
+        <li>
+            <a href="{{ route('informasi.show', $item->id) }}" class="text-blue-600 hover:underline">
+                Ada {{ $item->title }} di Balai Kota DKI Jakarta
+            </a>
+        </li>
+    @empty
+        <li>Belum ada data tersedia.</li>
+    @endforelse
+</ul>
+
+          </div>
+          <div class="md:w-[400px] w-full">
+            <img src="{{ asset('img/DJI_0135.jpg') }}" alt="Balai Kota" class="rounded-xl shadow-md w-full object-cover">
+          </div>
+        </div>
       </div>
 
-      <form class="space-y-5">
-        <div>
-          <label for="nama" class="block font-semibold mb-1">Nama Lengkap</label>
-          <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda" class="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0077b6]" />
-        </div>
+      <!-- Tab 2: Berita -->
+      <div id="berita" class="tab-content bg-white p-6 rounded shadow-md border-l-4 border-[#0077b6]">
+        <h3 class="text-xl font-bold text-[#023e8a] mb-4">📰 Berita Terkini</h3>
+        <p>Belum ada berita terbaru. Silakan cek kembali nanti.</p>
+      </div>
 
-        <div>
-          <label for="email" class="block font-semibold mb-1">Email</label>
-          <input type="email" id="email" name="email" placeholder="Masukkan email Anda" class="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0077b6]" />
-        </div>
-
-        <div>
-          <label for="pesan" class="block font-semibold mb-1">Pesan</label>
-          <textarea id="pesan" name="pesan" rows="5" placeholder="Tulis pesan Anda di sini..." class="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0077b6] resize-none"></textarea>
-        </div>
-
-        <button type="submit" class="bg-[#0077b6] text-white font-bold rounded-lg px-6 py-3 hover:bg-[#0096c7] transition">Kirim Pesan</button>
-      </form>
     </section>
   </main>
 
-@include('partials.footer')
+  @include('partials.footer')
 
-<script>
-  // Clock update
-  function updateClock() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById("clock").textContent = `${h}:${m}:${s}`;
-  }
-  setInterval(updateClock, 1000);
-  updateClock();
-
-  // Hamburger toggle
-  const hamburger = document.getElementById("hamburger");
-  const navMenu = document.getElementById("nav-menu");
-
-  hamburger.addEventListener("click", () => {
-    navMenu.classList.toggle("hidden");
-  });
-</script>
-
+  <!-- Script -->
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('tab-active'));
+      document.getElementById(id).classList.add('tab-active');
+    }
+  </script>
 </body>
 </html>

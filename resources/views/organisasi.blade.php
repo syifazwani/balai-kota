@@ -38,70 +38,132 @@
 
 
       <!-- Kebijakan -->
-      <div id="kebijakan" class="tab-content hidden">
-        <h3 class="text-xl font-semibold mb-4">Kebijakan dan Regulasi</h3>
-        @if(Storage::disk('public')->exists('kebijakan'))
-          @php $files = Storage::disk('public')->files('kebijakan'); @endphp
-          @if(count($files) > 0)
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              @foreach($files as $file)
-                <div class="bg-white rounded-lg shadow p-4">
-                  <h4 class="text-lg mb-2">📄 {{ basename($file) }}</h4>
-                  <a href="{{ asset('storage/' . $file) }}" target="_blank" class="text-blue-600 hover:underline">Lihat File</a>
-                  <br />
-                  <a href="{{ asset('storage/' . $file) }}" download class="inline-block mt-3 px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Unduh</a>
-                </div>
-              @endforeach
+     <div id="kebijakan" class="tab-content hidden">
+  <h3 class="text-xl font-semibold mb-4">Kebijakan dan Regulasi</h3>
+  @if(Storage::disk('public')->exists('kebijakan'))
+    @php $files = Storage::disk('public')->files('kebijakan'); @endphp
+    @if(count($files) > 0)
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        @foreach($files as $file)
+          <div class="bg-white rounded-lg shadow p-4 hover:shadow-md transition duration-300">
+            <div class="h-48 overflow-hidden rounded mb-3 border border-gray-200">
+              <iframe 
+                src="{{ asset('storage/' . $file) }}" 
+                class="w-full h-full" 
+                frameborder="0">
+              </iframe>
             </div>
-          @else
-            <p>Tidak ada file kebijakan yang tersedia.</p>
-          @endif
-        @else
-          <p>Tidak ada folder kebijakan ditemukan.</p>
-        @endif
+            <h4 class="text-lg font-medium truncate mb-2">📄 {{ basename($file) }}</h4>
+            <div class="flex justify-between items-center text-sm">
+              <a href="{{ asset('storage/' . $file) }}" target="_blank" class="text-blue-600 hover:underline">Lihat</a>
+              <a href="{{ asset('storage/' . $file) }}" download class="px-3 py-1 bg-blue-700 text-white rounded hover:bg-blue-800">Unduh</a>
+            </div>
+          </div>
+        @endforeach
       </div>
+    @else
+      <p class="text-gray-600">Tidak ada file kebijakan yang tersedia.</p>
+    @endif
+  @else
+    <p class="text-gray-600">Folder kebijakan tidak ditemukan.</p>
+  @endif
+</div>
 
       <!-- Renstra -->
-      <div id="renstra" class="tab-content hidden">
-        <h3 class="text-xl font-semibold mb-4">Rencana Strategis (Renstra)</h3>
-        @if(Storage::disk('public')->exists('renstra'))
-          @php $files = Storage::disk('public')->files('renstra'); @endphp
-          @if(count($files) > 0)
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              @foreach($files as $file)
-                <div class="bg-white rounded-lg shadow p-4">
-                  <h4 class="text-lg mb-2">📄 {{ basename($file) }}</h4>
-                  <a href="{{ asset('storage/' . $file) }}" target="_blank" class="text-blue-600 hover:underline">Lihat File</a>
-                  <br />
-                  <a href="{{ asset('storage/' . $file) }}" download class="inline-block mt-3 px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Unduh</a>
-                </div>
-              @endforeach
-            </div>
-          @else
-            <p>Tidak ada dokumen Renstra yang tersedia.</p>
-          @endif
-        @else
-          <p>Tidak ada folder Renstra ditemukan.</p>
-        @endif
-      </div>
+    <div id="renstra" class="tab-content hidden">
+  <h3 class="text-xl font-semibold mb-4">Rencana Strategis (Renstra)</h3>
+
+  @php
+    $renstraPath = 'renstra';
+    $files = Storage::disk('public')->exists($renstraPath)
+        ? Storage::disk('public')->files($renstraPath)
+        : [];
+  @endphp
+
+  @if(count($files) > 0)
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      @foreach($files as $file)
+        <div class="bg-white rounded-lg shadow p-4 hover:shadow-md transition duration-300">
+          <div class="h-48 overflow-hidden rounded mb-3 border border-gray-200">
+            <iframe 
+              src="{{ asset('storage/' . $file) }}" 
+              class="w-full h-full" 
+              frameborder="0">
+            </iframe>
+          </div>
+          <h4 class="text-lg font-medium truncate mb-2">📄 {{ basename($file) }}</h4>
+          <div class="flex justify-between items-center text-sm">
+            <a href="{{ asset('storage/' . $file) }}" target="_blank" class="text-blue-600 hover:underline">Lihat</a>
+            <a href="{{ asset('storage/' . $file) }}" download class="px-3 py-1 bg-blue-700 text-white rounded hover:bg-blue-800">Unduh</a>
+          </div>
+        </div>
+      @endforeach
+    </div>
+  @else
+    <p class="text-gray-600">Tidak ada dokumen Renstra yang tersedia.</p>
+  @endif
+</div>
+
+
 
       <!-- LKIP -->
-      <div id="lkip" class="tab-content hidden">
-        <div class="bg-white rounded-lg shadow p-6 max-w-md">
-          <h3 class="text-xl font-semibold mb-2">LKIP 2024</h3>
-          <p class="mb-4">Laporan Kinerja Instansi Pemerintah tahun 2024.</p>
-          <a href="/dokumen/lkip2024.pdf" download class="inline-block px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Unduh</a>
+    <div id="lkip" class="tab-content hidden">
+  @if($lkips->count() > 0)
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      @foreach($lkips as $lkip)
+        <div class="bg-white rounded-lg shadow p-4 hover:shadow-md transition duration-300">
+          <div class="h-48 overflow-hidden rounded mb-3 border border-gray-200">
+            <iframe 
+              src="{{ asset('storage/' . $lkip->file_path) }}" 
+              class="w-full h-full" 
+              frameborder="0" 
+              loading="lazy">
+            </iframe>
+          </div>
+          <h3 class="text-lg font-semibold mb-1 truncate">{{ $lkip->judul }}</h3>
+          <p class="text-sm mb-3">{{ $lkip->deskripsi }}</p>
+          <a href="{{ asset('storage/' . $lkip->file_path) }}" download 
+             class="inline-block px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 text-sm">
+             Unduh
+          </a>
         </div>
-      </div>
+      @endforeach
+    </div>
+  @else
+    <p class="text-gray-600">Tidak ada dokumen LKIP yang tersedia.</p>
+  @endif
+</div>
+
 
       <!-- Laporan -->
-      <div id="laporan" class="tab-content hidden">
-        <div class="bg-white rounded-lg shadow p-6 max-w-md">
-          <h3 class="text-xl font-semibold mb-2">Laporan Keuangan 2024</h3>
-          <p class="mb-4">Laporan keuangan tahun anggaran 2024.</p>
-          <a href="/dokumen/laporan2024.pdf" download class="inline-block px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Unduh</a>
+<div id="laporan" class="tab-content hidden">
+  @if(isset($laporans) && $laporans->count() > 0)
+    @foreach($laporans as $laporan)
+      <div class="bg-white rounded-lg shadow p-6 max-w-md mb-6 hover:shadow-md transition duration-300">
+        <div class="h-48 overflow-hidden rounded mb-4 border border-gray-200">
+          <iframe 
+            src="{{ asset('storage/' . $laporan->file_path) }}" 
+            class="w-full h-full" 
+            frameborder="0" 
+            loading="lazy">
+          </iframe>
         </div>
+        <h3 class="text-xl font-semibold mb-2 truncate">{{ $laporan->judul }}</h3>
+        <p class="mb-4">{{ $laporan->deskripsi }}</p>
+        <a href="{{ asset('storage/' . $laporan->file_path) }}" download 
+           class="inline-block px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
+           Unduh
+        </a>
       </div>
+    @endforeach
+  @else
+    <p class="text-gray-600">Tidak ada laporan.</p>
+  @endif
+</div>
+
+
+
+
     </section>
 
     {{-- Include Footer --}}
